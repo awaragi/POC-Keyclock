@@ -24,6 +24,8 @@ services:
       MYSQL_USER: keycloak
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root
+    volumes:
+          - ./mysql:/var/lib/mysql
     networks:
     - keycloak-network
 networks:
