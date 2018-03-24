@@ -35,5 +35,7 @@ services:
     image: djfarrelly/maildev
     ports:
       - "8081:80"
+    networks:
+    - keycloak-network
 networks:
   keycloak-network:
