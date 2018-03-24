@@ -10,8 +10,10 @@ services:
       KEYCLOAK_PASSWORD: admin
     links:
     - mysql
+    - maildev
     depends_on:
     - mysql
+    - maildev
     networks:
     - keycloak-network
   mysql:
@@ -28,5 +30,10 @@ services:
           - ./mysql:/var/lib/mysql
     networks:
     - keycloak-network
+  maildev:
+    container_name: maildev
+    image: djfarrelly/maildev
+    ports:
+      - "8081:80"
 networks:
   keycloak-network:
