@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   keycloak:
     container_name: keycloak
@@ -16,6 +16,8 @@ services:
     - maildev
     networks:
     - keycloak-network
+    volumes:
+    - ./providers:/opt/jboss/keycloak/providers
   mysql:
     container_name: mysql
     image: mysql
