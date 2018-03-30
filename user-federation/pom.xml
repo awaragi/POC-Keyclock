@@ -3,12 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.awaragi</groupId>
-  <artifactId>keycloack-poc</artifactId>
+  <artifactId>user-federation</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>keycloack-poc</name>
-  <url>http://maven.apache.org</url>
+  <name>User Federation</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,7 +28,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>src/etc/providers/</outputDirectory>
+              <outputDirectory>../instance/providers/</outputDirectory>
               <resources>
                 <resource>
                   <directory>target</directory>
