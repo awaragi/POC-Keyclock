@@ -14,21 +14,25 @@ That includes:
  * Update the credential and detach that user from the federated source
 
 To build the provider jar:
-        mvn clean package
+  - cd user-federation
+  - mvn clean package
+  
 That will compile, package and deploy the provider package to instance/providers
 
-Now build and start:
-        cd instance
-        docker-compose up
+Now start keycloak:
+  - cd instance
+  - docker-compose up
 
-- Go to localhost:8080 
-- Access the admin console (admin/admin)
+Configure instance
+- Open to [admin panel](http://localhost:8080/)
+- Login using admin/admin
 - Navigate to User Federation section
 - Add new federated simple-user-storage (accept default settings)
-- login using
-        username: pierre
-        password: pierre
+- monitor keycloak logs
+- Use one of test links and login using one of the account in [users.properties file](src/main/resources/users.properties)
+  - username: test
+  - password: test
 
 References:
-https://github.com/keycloak/keycloak/tree/master/examples/providers/user-storage-simple
-https://github.com/Smartling/keycloak-user-migration-provider/blob/master/user-migration-federation-provider
+- https://github.com/keycloak/keycloak/tree/master/examples/providers/user-storage-simple
+- https://github.com/Smartling/keycloak-user-migration-provider/blob/master/user-migration-federation-provider
