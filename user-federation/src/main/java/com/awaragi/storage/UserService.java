@@ -1,6 +1,4 @@
-package com.awaragi.poc.userstorage;
-
-import java.util.Optional;
+package com.awaragi.storage;
 
 public interface UserService {
   FederatedUserModel getUserDetails(String username);

@@ -1,4 +1,4 @@
-package com.awaragi.poc.userstorage;
+package com.awaragi.storage;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,11 +9,7 @@ public class FederatedUserModel {
   private final String username;
   private final String password;
   private boolean isEnabled = true;
-  private String email = "test@test.com";
   private boolean emailVerified = true;
-  private String firstName = "test first name";
-  private String lastName = "test last name";
-
   private Map<String, List<String>> attributes = new HashMap<>();
   private List<String> roles;
 
@@ -22,7 +18,17 @@ public class FederatedUserModel {
     this.password = password;
 
     // Put some ramdom attributes
-    attributes.put("An attribute", Arrays.asList("test1", "test2", "test3"));
+    attributes.put("kba", Arrays.asList("Who is you father?", "Vader"));
+  }
+
+  private String camelCase(String s) {
+    if(s == null) {
+      return s;
+    } else if(s.length() < 2) {
+      return s.toUpperCase();
+    } else {
+      return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
   }
 
   public boolean isEnabled() {
@@ -33,12 +39,10 @@ public class FederatedUserModel {
     return emailVerified;
   }
 
-  public String getFirstName() {
-    return firstName;
-  }
+  public String getFirstName() { return camelCase(username); }
 
   public String getLastName() {
-    return lastName;
+    return "Van " + camelCase(username);
   }
 
   public Map<String, List<String>> getAttributes() {
@@ -55,6 +59,6 @@ public class FederatedUserModel {
   }
 
   public String getEmail() {
-    return email;
+    return username + "@" + username + ".com";
   }
 }

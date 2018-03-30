@@ -24,13 +24,11 @@ Now build and start:
 - Go to localhost:8080 
 - Access the admin console (admin/admin)
 - Navigate to User Federation section
-- Add new federated 
-- Add simple-user-storage then login.
-
+- Add new federated simple-user-storage (accept default settings)
+- login using
         username: pierre
         password: pierre
 
 References:
 https://github.com/keycloak/keycloak/tree/master/examples/providers/user-storage-simple
 https://github.com/Smartling/keycloak-user-migration-provider/blob/master/user-migration-federation-provider
-

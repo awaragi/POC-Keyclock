@@ -1,17 +1,13 @@
-package com.awaragi.poc.userstorage;
+package com.awaragi.storage;
 
-import org.keycloak.component.ComponentModel;
-import org.keycloak.models.UserModel;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Properties;
 
 public class UserServiceImpl implements UserService {
   protected Properties properties;
-  // map of loaded users in this transaction
-  protected Map<String, UserModel> loadedUsers = new HashMap<>();
+
+  /**
+   * Constructor using pre-loaded properties
+   */
   public UserServiceImpl(Properties properties) {
     this.properties = properties;
   }

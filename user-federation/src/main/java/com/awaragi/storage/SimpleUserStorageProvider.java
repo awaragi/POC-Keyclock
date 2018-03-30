@@ -1,4 +1,4 @@
-package com.awaragi.poc.userstorage;
+package com.awaragi.storage;
 
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
@@ -63,7 +63,6 @@ public class SimpleUserStorageProvider implements UserLookupProvider, UserStorag
   private UserModel createUserModel(RealmModel realm, String rawUsername) throws NotFoundException {
 
     String username = rawUsername.toLowerCase().trim();
-    //UserModel userModel = session.userLocalStorage().getUserByUsername(username, realm);
 
     FederatedUserModel remoteUser = userService.getUserDetails(username);
 
@@ -74,7 +73,9 @@ public class SimpleUserStorageProvider implements UserLookupProvider, UserStorag
     LOG.infof("Creating user model for: %s", username);
     UserModel userModel = session.userLocalStorage().addUser(realm, username);
 
+    // for now the user is linked to source until it is correctly authenticated
     userModel.setFederationLink(model.getId());
+
     userModel.setEnabled(remoteUser.isEnabled());
     userModel.setEmail(remoteUser.getEmail());
     userModel.setEmailVerified(remoteUser.isEmailVerified());
@@ -103,7 +104,7 @@ public class SimpleUserStorageProvider implements UserLookupProvider, UserStorag
 
   @Override
   public void close() {
-    LOG.info("Close Simple User Storage... nothing done.");
+    LOG.info("Closing Simple User Storage");
   }
 
   @Override
@@ -119,7 +120,7 @@ public class SimpleUserStorageProvider implements UserLookupProvider, UserStorag
 
   @Override
   public boolean isValid(RealmModel realmModel, UserModel userModel, CredentialInput credentialInput) {
-    LOG.infof("Validate user %s", userModel.getUsername());
+    LOG.infof("Validating user %s", userModel.getUsername());
 
     if (!supportsCredentialType(credentialInput.getType()) || !(credentialInput instanceof UserCredentialModel)) {
       return false;
@@ -131,12 +132,16 @@ public class SimpleUserStorageProvider implements UserLookupProvider, UserStorag
       return false;
     }
 
-    if (federatedUserModel.getPassword().equals(cred.getValue())) {
+    boolean validCredentials = federatedUserModel.getPassword().equals(cred.getValue());
+
+    if (validCredentials) {
+      LOG.infof("Completed import of valid user by detaching/unlink it from its source: %s", userModel.getUsername());
       userModel.setFederationLink(null);
+
+      // update credentials using clear password
       session.userCredentialManager().updateCredential(realmModel, userModel, credentialInput);
-      return true;
     }
 
-    return false;
+    return validCredentials;
   }
 }

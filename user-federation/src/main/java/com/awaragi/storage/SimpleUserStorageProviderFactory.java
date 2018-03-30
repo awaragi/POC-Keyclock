@@ -1,4 +1,4 @@
-package com.awaragi.poc.userstorage;
+package com.awaragi.storage;
 
 import org.jboss.logging.Logger;
 import org.keycloak.Config;

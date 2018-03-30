@@ -1,4 +1,4 @@
-package com.awaragi.poc.userstorage;
+package com.awaragi.storage;
 
 public class NotFoundException extends Exception {
 }
