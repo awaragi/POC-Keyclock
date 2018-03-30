@@ -29,7 +29,7 @@ Configure instance
 - Navigate to User Federation section
 - Add new federated simple-user-storage (accept default settings)
 - monitor keycloak logs
-- Use one of test links and login using one of the account in [users.properties file](src/main/resources/users.properties)
+- Use one of test links and login using one of the account in [users.properties file](user-federations/src/main/resources/users.properties)
   - username: test
   - password: test
 
