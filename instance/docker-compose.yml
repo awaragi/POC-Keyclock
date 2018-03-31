@@ -8,11 +8,15 @@ services:
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
+#      MYSQL_ADDR: mysql
+#      MYSQL_DATABASE: keycloak
+#      MYSQL_USER: keycloak
+#      MYSQL_PASSWORD: password
     links:
-    - mysql
+#    - mysql
     - maildev
     depends_on:
-    - mysql
+#    - mysql
     - maildev
     networks:
     - keycloak-network
@@ -21,20 +25,20 @@ services:
     - ./shared:/shared
     entrypoint:
     - "/shared/custom-docker-entrypoint.sh"
-  mysql:
-    container_name: mysql
-    image: mysql
-    ports:
-    - "3306:3306"
-    environment:
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-          - ./mysql:/var/lib/mysql
-    networks:
-    - keycloak-network
+#  mysql:
+#    container_name: mysql
+#    image: mysql:5.7
+#    ports:
+#    - "3306:3306"
+#    environment:
+#      MYSQL_DATABASE: keycloak
+#      MYSQL_USER: keycloak
+#      MYSQL_PASSWORD: password
+#      MYSQL_ROOT_PASSWORD: root
+#    volumes:
+#          - ./mysql:/var/lib/mysql
+#    networks:
+#    - keycloak-network
   maildev:
     container_name: maildev
     image: djfarrelly/maildev
