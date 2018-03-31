@@ -13,11 +13,15 @@ That includes:
  * Update the Keycloak UserModel with data from the federated source (attributes, email, etc...)
  * Update the credential and detach that user from the federated source
 
-To build the provider jar:
+To build the user federation provider jar:
   - cd user-federation
   - mvn clean package
   
 That will compile, package and deploy the provider package to instance/providers
+
+To build the kb-authentication provider war
+  - cd kb-authentication
+  - mvn clean package
 
 Now start keycloak:
   - cd instance
@@ -28,6 +32,19 @@ Configure instance
 - Login using admin/admin
 - Navigate to User Federation section
 - Add new federated simple-user-storage (accept default settings)
+- Navigate to Authentication menu -> Flow tab
+- Select Browser flow
+- Copy the "Browser" flow -> give it a new name
+- Delete OTP Form
+- click the "Actions" menu item of the ....
+- "Add Execution".  Pick Optional OTP Form
+- Make Required
+- Click on Config action
+- ....
+- click the "Actions" menu item of the ....
+- "Add Execution".  Pick Secret Question
+- Make required.
+
 - monitor keycloak logs
 - Use one of test links and login using one of the account in [users.properties file](user-federations/src/main/resources/users.properties)
   - username: test
