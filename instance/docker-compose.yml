@@ -2,7 +2,7 @@ version: '2'
 services:
   keycloak:
     container_name: keycloak
-    image: jboss/keycloak
+    image: jboss/keycloak:3.4.3.Final
     ports:
     - "8080:8080"
     environment:
@@ -18,6 +18,9 @@ services:
     - keycloak-network
     volumes:
     - ./providers:/opt/jboss/keycloak/providers
+    - ./shared:/shared
+    entrypoint:
+    - "/shared/custom-docker-entrypoint.sh"
   mysql:
     container_name: mysql
     image: mysql
