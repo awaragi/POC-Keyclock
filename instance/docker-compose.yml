@@ -5,6 +5,7 @@ services:
     image: jboss/keycloak:3.4.3.Final
     ports:
     - "8080:8080"
+    - "8787:8787"
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
