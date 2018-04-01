@@ -1349,10 +1349,18 @@
           "autheticatorFlow": false
         },
         {
+          "authenticatorConfig": "otp",
+          "authenticator": "auth-conditional-otp-form",
+          "requirement": "REQUIRED",
+          "priority": 21,
+          "userSetupAllowed": false,
+          "autheticatorFlow": false
+        },
+        {
           "authenticatorConfig": "secret-question",
           "authenticator": "secret-question-authenticator",
           "requirement": "REQUIRED",
-          "priority": 21,
+          "priority": 22,
           "userSetupAllowed": false,
           "autheticatorFlow": false
         }
@@ -1698,6 +1706,18 @@
       "alias": "create unique user config",
       "config": {
         "require.password.update.after.registration": "false"
+      }
+    },
+    {
+      "id": "b6ff4c77-e6e3-4bee-affa-d6e4d527ff56",
+      "alias": "otp",
+      "config": {
+        "skipOtpRole": "",
+        "forceOtpRole": "",
+        "otpControlAttribute": "otp",
+        "noOtpRequiredForHeaderPattern": "",
+        "forceOtpForHeaderPattern": "",
+        "defaultOtpOutcome": "skip"
       }
     },
     {
