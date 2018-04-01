@@ -1,6 +1,7 @@
 package com.awaragi.storage;
 
 import org.jboss.logging.Logger;
+import org.keycloak.common.util.Time;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
 import org.keycloak.credential.CredentialInputValidator;
@@ -23,6 +24,7 @@ public class SimpleUserStorageProvider implements UserLookupProvider, UserStorag
 
   private UserService userService;
   private static final String SUPPORTED_CREDENTIAL_TYPE = "password";
+  private static final String SECRET_QUESTION = "SECRET_QUESTION";
 
   public SimpleUserStorageProvider(KeycloakSession session, ComponentModel model, UserService userService) {
     this.session = session;
@@ -135,11 +137,16 @@ public class SimpleUserStorageProvider implements UserLookupProvider, UserStorag
     boolean validCredentials = federatedUserModel.getPassword().equals(cred.getValue());
 
     if (validCredentials) {
-      LOG.infof("Completed import of valid user by detaching/unlink it from its source: %s", userModel.getUsername());
+      LOG.infof("Completing import of valid user by detaching/unlink it from its source: %s", userModel.getUsername());
       userModel.setFederationLink(null);
 
       // update credentials using clear password
       session.userCredentialManager().updateCredential(realmModel, userModel, credentialInput);
+
+      // secret question
+      UserCredentialModel secretQuestionCredential = UserCredentialModel.secret(federatedUserModel.getSecretQuestion());
+      secretQuestionCredential.setType(SECRET_QUESTION);
+      session.userCredentialManager().updateCredential(realmModel, userModel, secretQuestionCredential);
     }
 
     return validCredentials;

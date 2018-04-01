@@ -10,15 +10,14 @@ public class FederatedUserModel {
   private final String password;
   private boolean isEnabled = true;
   private boolean emailVerified = true;
+  private String secretQuestion = "";
   private Map<String, List<String>> attributes = new HashMap<>();
   private List<String> roles;
 
-  public FederatedUserModel(String username, String password) {
+  public FederatedUserModel(String username, String password, String secretQuestion) {
     this.username = username;
     this.password = password;
-
-    // Put some ramdom attributes
-    attributes.put("kba", Arrays.asList("Who is you father?", "Vader"));
+    this.secretQuestion = secretQuestion;
   }
 
   private String camelCase(String s) {
@@ -53,10 +52,11 @@ public class FederatedUserModel {
     return roles;
   }
 
-
   public String getPassword() {
     return password;
   }
+
+  public String getSecretQuestion() { return secretQuestion; }
 
   public String getEmail() {
     return username + "@" + username + ".com";
