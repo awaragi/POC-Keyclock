@@ -17,6 +17,9 @@
 
 package com.awaragi.authenticator;
 
+import static com.awaragi.authenticator.SecretQuestionAuthenticator.COOKIE_MAX_AGE;
+import static org.keycloak.provider.ProviderConfigProperty.STRING_TYPE;
+
 import org.keycloak.Config;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
@@ -50,6 +53,7 @@ public class SecretQuestionAuthenticatorFactory implements AuthenticatorFactory,
 
     private static AuthenticationExecutionModel.Requirement[] REQUIREMENT_CHOICES = {
             AuthenticationExecutionModel.Requirement.REQUIRED,
+            AuthenticationExecutionModel.Requirement.OPTIONAL,
             AuthenticationExecutionModel.Requirement.DISABLED
     };
     @Override
@@ -75,13 +79,14 @@ public class SecretQuestionAuthenticatorFactory implements AuthenticatorFactory,
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
     static {
-        ProviderConfigProperty property;
-        property = new ProviderConfigProperty();
-        property.setName("cookie.max.age");
+        ProviderConfigProperty property = new ProviderConfigProperty();
+        property.setName(COOKIE_MAX_AGE);
         property.setLabel("Cookie Max Age");
-        property.setType(ProviderConfigProperty.STRING_TYPE);
+        property.setType(STRING_TYPE);
         property.setHelpText("Max age in seconds of the SECRET_QUESTION_COOKIE.");
+
         configProperties.add(property);
+
     }
 
 

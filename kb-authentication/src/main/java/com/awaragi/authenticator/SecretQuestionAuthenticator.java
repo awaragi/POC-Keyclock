@@ -17,6 +17,10 @@
 
 package com.awaragi.authenticator;
 
+import static com.awaragi.authenticator.SecretQuestionCredentialProvider.SECRET_QUESTION;
+import static org.keycloak.credential.CredentialModel.OTP;
+
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.HttpResponse;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.keycloak.authentication.AuthenticationFlowContext;
@@ -34,14 +38,18 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.util.Optional;
 
 /**
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
  * @version $Revision: 1 $
  */
 public class SecretQuestionAuthenticator implements Authenticator {
-
+    private static final Logger LOG = Logger.getLogger(SecretQuestionAuthenticator.class);
     public static final String CREDENTIAL_TYPE = "secret_question";
+    public static final String COOKIE_MAX_AGE = "cookie.max.age";
+    private static final String FORCE = "force";
+    public static final String SECRET_ANSWER = "secret_answer";
 
     protected boolean hasCookie(AuthenticationFlowContext context) {
         Cookie cookie = context.getHttpRequest().getHttpHeaders().getCookies().get("SECRET_QUESTION_ANSWERED");
@@ -54,12 +62,24 @@ public class SecretQuestionAuthenticator implements Authenticator {
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
+        if (requireOTP(context.getUser())) {
+            context.success();
+            return;
+        }
+
         if (hasCookie(context)) {
             context.success();
             return;
         }
         Response challenge = context.form().createForm("secret-question.ftl");
         context.challenge(challenge);
+    }
+
+    private boolean requireOTP(UserModel userModel) {
+        Optional<String> optionalOTP = userModel.getAttribute(OTP).stream().findFirst();
+        boolean hasOTP = optionalOTP.isPresent() && SecretQuestionAuthenticator.FORCE.equals(optionalOTP.get());
+        LOG.infof("%s required OTP %s", userModel.getUsername(), hasOTP);
+        return hasOTP;
     }
 
     @Override
@@ -107,9 +127,9 @@ public class SecretQuestionAuthenticator implements Authenticator {
 
     protected boolean validateAnswer(AuthenticationFlowContext context) {
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
-        String secret = formData.getFirst("secret_answer");
+        String secret = formData.getFirst(SECRET_ANSWER);
         UserCredentialModel input = new UserCredentialModel();
-        input.setType(SecretQuestionCredentialProvider.SECRET_QUESTION);
+        input.setType(SECRET_QUESTION);
         input.setValue(secret);
         return context.getSession().userCredentialManager().isValid(context.getRealm(), context.getUser(), input);
     }
@@ -121,12 +141,17 @@ public class SecretQuestionAuthenticator implements Authenticator {
 
     @Override
     public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
-        return session.userCredentialManager().isConfiguredFor(realm, user, SecretQuestionCredentialProvider.SECRET_QUESTION);
+        return session.userCredentialManager()
+            .isConfiguredFor(realm, user, SECRET_QUESTION);
     }
 
     @Override
     public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
-        user.addRequiredAction(SecretQuestionRequiredAction.PROVIDER_ID);
+        if (requireOTP(user)) {
+            user.removeRequiredAction(SecretQuestionRequiredAction.PROVIDER_ID);
+        } /*else {
+            user.addRequiredAction(SecretQuestionRequiredAction.PROVIDER_ID);
+        }*/
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.awaragi.storage;
 
+import static java.util.Collections.singletonList;
+
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,14 +13,15 @@ public class FederatedUserModel {
   private final String password;
   private boolean isEnabled = true;
   private boolean emailVerified = true;
-  private String secretQuestion = "";
+  private String secretAnswer = "";
   private Map<String, List<String>> attributes = new HashMap<>();
   private List<String> roles;
 
-  public FederatedUserModel(String username, String password, String secretQuestion) {
+  public FederatedUserModel(String username, String password, String secretAnswer) {
     this.username = username;
     this.password = password;
-    this.secretQuestion = secretQuestion;
+    this.secretAnswer = secretAnswer;
+
   }
 
   private String camelCase(String s) {
@@ -56,9 +60,16 @@ public class FederatedUserModel {
     return password;
   }
 
-  public String getSecretQuestion() { return secretQuestion; }
+  public String getSecretAnswer() { return secretAnswer; }
 
   public String getEmail() {
     return username + "@" + username + ".com";
+  }
+
+  @Override
+  public String toString() {
+    return "FederatedUserModel{" + "username='" + username + '\'' + ", password='" + password + '\'' + ", isEnabled="
+        + isEnabled + ", emailVerified=" + emailVerified + ", secretAnswer='" + secretAnswer + '\'' + ", attributes="
+        + attributes + ", roles=" + roles + '}';
   }
 }
