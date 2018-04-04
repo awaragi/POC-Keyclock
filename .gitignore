@@ -15,6 +15,7 @@ hs_err_pid*
 
 .DS_Store
 
-*.iml
-.idea
-target
+/*.iml
+/.idea/
+/target/
+/src/etc/mysql/
