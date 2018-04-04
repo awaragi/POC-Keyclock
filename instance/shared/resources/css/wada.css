@@ -13,14 +13,6 @@
     margin-bottom: 15px;
 }
 
-#kc-locale-dropdown a {
-    color: #fff;
-}
-
-#kc-locale-dropdown a:hover {
-    text-decoration: none;
-}
-
 .login-pf body {
     background: #ffffff;
     background-size: cover;
@@ -30,10 +22,6 @@
 
 .login-pf .container {
     color: #000;
-}
-
-#kc-locale {
-  visibility: hidden;
 }
 
 #rememberMe {
