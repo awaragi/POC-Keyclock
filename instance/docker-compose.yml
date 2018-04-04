@@ -24,7 +24,6 @@ services:
     networks:
     - keycloak-network
     volumes:
-    - ./providers:/opt/jboss/keycloak/providers
     - ./shared:/shared
     entrypoint:
     - "/shared/custom-docker-entrypoint.sh"
