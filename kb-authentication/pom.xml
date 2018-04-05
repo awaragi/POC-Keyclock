@@ -60,7 +60,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>../instance/shared/</outputDirectory>
+                            <outputDirectory>../instance/deployables/</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>target</directory>

@@ -48,7 +48,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>../instance/providers/</outputDirectory>
+              <outputDirectory>../instance/deployables/</outputDirectory>
               <resources>
                 <resource>
                   <directory>target</directory>
