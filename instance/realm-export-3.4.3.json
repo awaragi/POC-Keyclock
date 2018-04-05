@@ -1104,7 +1104,7 @@
     "from": "no-reply@test.com",
     "ssl": ""
   },
-  "loginTheme": "keycloak",
+  "loginTheme": "wada",
   "accountTheme": "keycloak",
   "adminTheme": "keycloak",
   "emailTheme": "keycloak",
